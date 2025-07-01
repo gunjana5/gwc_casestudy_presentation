@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictive Maintenance Strategy - Executive Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .presentation-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .slide {
+            background: white;
+            margin: 20px 0;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            min-height: 600px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideIn 0.8s ease-out forwards;
+        }
+
+        .slide:nth-child(2) { animation-delay: 0.2s; }
+        .slide:nth-child(3) { animation-delay: 0.4s; }
+        .slide:nth-child(4) { animation-delay: 0.6s; }
+        .slide:nth-child(5) { animation-delay: 0.8s; }
+        .slide:nth-child(6) { animation-delay: 1.0s; }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 25px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .slide-header h1 {
+            font-size: 2.2em;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .slide-header h2 {
+            font-size: 1.8em;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .slide-content {
+            padding: 40px;
+        }
+
+        .title-slide {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .title-slide h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .title-slide .subtitle {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .title-slide .date {
+            font-size: 1.1em;
+            opacity: 0.8;
+        }
+
+        .problem-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            transform: scale(1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: scale(1.05);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .findings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .finding-card {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #f39c12;
+        }
+
+        .finding-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .finding-detail {
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        .recommendations-container {
+            display: flex;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .recommendation-item {
+            flex: 1;
+            min-width: 300px;
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recommendation-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon points="0,0 100,0 85,100 0,100" fill="rgba(255,255,255,0.1)"/></svg>') no-repeat;
+            background-size: cover;
+        }
+
+        .rec-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .rec-cost {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #f1c40f;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .rec-benefit {
+            font-size: 1em;
+            line-height: 1.5;
+            position: relative;
+            z-index: 1;
+        }
+
+        .roi-highlight {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .timeline-phase {
+            background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .phase-number {
+            background: rgba(255,255,255,0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto 15px;
+            font-size: 1.2em;
+        }
+
+        .phase-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .phase-duration {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .next-steps {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+
+        .next-steps h3 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #ecf0f1;
+        }
+
+        .next-steps ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .next-steps li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .next-steps li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #2ecc71;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .slide-number {
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            background: rgba(0,0,0,0.1);
+            color: #666;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .slide-content {
+                padding: 20px;
+            }
+            
+            .title-slide h1 {
+                font-size: 2.5em;
+            }
+            
+            .recommendations-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        
+        <!-- slide 1: title -->
+        <div class="slide title-slide">
+            <h1>Predictive Maintenance Strategy</h1>
+            <div class="subtitle">Transforming Aircraft Maintenance Through Data-Driven Insights</div>
+            <div class="date">Executive Presentation | July 2025</div>
+            <div class="slide-number">1 / 6</div>
+        </div>
+
+        <!-- slide 2: problem statement -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2>The Maintenance Challenge</h2>
+            </div>
+            <div class="slide-content">
+                <p style="font-size: 1.2em; margin-bottom: 30px; line-height: 1.6;">Our current reactive maintenance approach is costing us millions annually and compromising operational efficiency.</p>
+                
+                <div class="problem-stats">
+                    <div class="stat-box">
+                        <div class="stat-number">$1.8M</div>
+                        <div class="stat-label">Annual Emergency Repairs</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">$900K</div>
+                        <div class="stat-label">Flight Delay Costs</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">40%</div>
+                        <div class="stat-label">Increased Costs in Harsh Weather</div>
+                    </div>
+                </div>
+
+                <p style="font-size: 1.1em; margin-top: 30px; line-height: 1.6;">Unexpected engine failures disrupt operations, reduce customer satisfaction, and force expensive emergency interventions. We need to shift from reactive to predictive maintenance.</p>
+            </div>
+            <div class="slide-number">2 / 6</div>
+        </div>
+
+        <!-- slide 3: key findings -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2>Data Analysis Reveals Critical Patterns</h2>
+            </div>
+            <div class="slide-content">
+                <div class="findings-grid">
+                    <div class="finding-card">
+                        <div class="finding-title">🔧 Vibration Analysis</div>
+                        <div class="finding-detail">Strong correlations identified between engine abnormalities and maintenance needs. Early vibration detection can predict failures 2-3 weeks before critical incidents.</div>
+                    </div>
+                    <div class="finding-card">
+                        <div class="finding-title">🌦️ Weather Impact</div>
+                        <div class="finding-detail">Maintenance costs increase 40% during harsh weather conditions. Predictive scheduling based on weather forecasts can optimize maintenance timing.</div>
+                    </div>
+                    <div class="finding-card">
+                        <div class="finding-title">✈️ Altitude Effects</div>
+                        <div class="finding-detail">High-altitude flights accelerate engine wear patterns significantly faster than current maintenance schedules account for, requiring data-driven adjustments.</div>
+                    </div>
+                </div>
+                
+                <p style="font-size: 1.1em; margin-top: 30px; text-align: center; font-style: italic;">These findings demonstrate clear opportunities for predictive maintenance to reduce costs and improve reliability.</p>
+            </div>
+            <div class="slide-number">3 / 6</div>
+        </div>
+
+        <!-- slide 4: recommendations -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2>Strategic Recommendations</h2>
+            </div>
+            <div class="slide-content">
+                <div class="recommendations-container">
+                    <div class="recommendation-item">
+                        <div class="rec-title">Enhanced Vibration Sensors</div>
+                        <div class="rec-cost">$320,000</div>
+                        <div class="rec-benefit">Most sensitive detection of engine abnormalities, forming the foundation for predictive maintenance by identifying issues before critical failures.</div>
+                    </div>
+                    <div class="recommendation-item">
+                        <div class="rec-title">Predictive Analytics Software</div>
+                        <div class="rec-cost">$250,000</div>
+                        <div class="rec-benefit">AI-powered maintenance prediction that converts sensor data into actionable insights, preventing emergency repairs through early intervention.</div>
+                    </div>
+                </div>
+
+                <div class="roi-highlight">
+                    <div style="font-size: 1.5em; margin-bottom: 10px;">💰 Total Investment: $570,000</div>
+                    <div style="font-size: 1.8em; color: #f1c40f;">🎯 ROI: 321% ($1.83M Annual Profit)</div>
+                </div>
+
+                <p style="text-align: center; font-size: 1.1em; margin-top: 20px;">This investment pays for itself in just 3.5 months through reduced emergency repairs and extended component life.</p>
+            </div>
+            <div class="slide-number">4 / 6</div>
+        </div>
+
+        <!-- slide 5: implementation timeline -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2>Implementation Roadmap</h2>
+            </div>
+            <div class="slide-content">
+                <div class="timeline">
+                    <div class="timeline-phase">
+                        <div class="phase-number">1</div>
+                        <div class="phase-title">Sensor Installation</div>
+                        <div class="phase-duration">Months 1-2</div>
+                        <p style="margin-top: 15px; font-size: 0.9em;">Deploy enhanced vibration sensors across entire fleet</p>
+                    </div>
+                    <div class="timeline-phase">
+                        <div class="phase-number">2</div>
+                        <div class="phase-title">Software Deployment</div>
+                        <div class="phase-duration">Month 3</div>
+                        <p style="margin-top: 15px; font-size: 0.9em;">Install predictive analytics software and integrate systems</p>
+                    </div>
+                    <div class="timeline-phase">
+                        <div class="phase-number">3</div>
+                        <div class="phase-title">Team Training</div>
+                        <div class="phase-duration">Month 4</div>
+                        <p style="margin-top: 15px; font-size: 0.9em;">Train maintenance teams and begin full operations</p>
+                    </div>
+                    <div class="timeline-phase">
+                        <div class="phase-number">4</div>
+                        <div class="phase-title">Full Operation</div>
+                        <div class="phase-duration">Month 4+</div>
+                        <p style="margin-top: 15px; font-size: 0.9em;">Complete predictive capabilities operational</p>
+                    </div>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%); color: white; padding: 20px; border-radius: 10px; text-align: center; margin-top: 30px;">
+                    <strong>⚡ Quick Wins:</strong> Benefits start within 30 days of sensor installation
+                </div>
+            </div>
+            <div class="slide-number">5 / 6</div>
+        </div>
+
+        <!-- slide 6: next steps -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2>Next Steps & Call to Action</h2>
+            </div>
+            <div class="slide-content">
+                <div class="next-steps">
+                    <h3>Immediate Actions Required:</h3>
+                    <ul>
+                        <li>Approve $570,000 budget allocation for predictive maintenance system</li>
+                        <li>Authorize procurement of enhanced vibration sensors and analytics software</li>
+                        <li>Designate project team for implementation oversight</li>
+                        <li>Schedule Phase 1 sensor installation to begin within 30 days</li>
+                        <li>Establish success metrics and monitoring protocols</li>
+                    </ul>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px;">
+                    <div style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); color: white; padding: 25px; border-radius: 10px; text-align: center;">
+                        <h4 style="margin-bottom: 15px;">Expected Timeline</h4>
+                        <div style="font-size: 1.5em; font-weight: bold;">4 Months</div>
+                        <div>To Full Implementation</div>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; padding: 25px; border-radius: 10px; text-align: center;">
+                        <h4 style="margin-bottom: 15px;">Risk of Delay</h4>
+                        <div style="font-size: 1.5em; font-weight: bold;">$150K</div>
+                        <div>Monthly Cost of Inaction</div>
+                    </div>
+                </div>
+
+                <p style="font-size: 1.2em; text-align: center; margin-top: 30px; font-weight: 600; color: #2c3e50;">
+                    The data is clear: predictive maintenance will transform our operations and deliver exceptional ROI. 
+                    <br><span style="color: #e74c3c;">The question is not whether to proceed, but how quickly we can implement.</span>
+                </p>
+            </div>
+            <div class="slide-number">6 / 6</div>
+        </div>
+
+    </div>
+
+    <script>
+        // add smooth scrolling and slide animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            
+            function animateSlides() {
+                slides.forEach((slide, index) => {
+                    const slideTop = slide.offsetTop;
+                    const slideHeight = slide.offsetHeight;
+                    const windowHeight = window.innerHeight;
+                    const scrollTop = window.pageYOffset;
+                    
+                    if (scrollTop > slideTop - windowHeight + slideHeight / 2) {
+                        slide.style.opacity = '1';
+                        slide.style.transform = 'translateY(0)';
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', animateSlides);
+            animateSlides(); // run on load
+            
+            // add hover effects for interactive elements
+            const statBoxes = document.querySelectorAll('.stat-box, .finding-card, .recommendation-item, .timeline-phase');
+            statBoxes.forEach(box => {
+                box.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.05) translateY(-5px)';
+                    this.style.boxShadow = '0 15px 35px rgba(0,0,0,0.3)';
+                });
+                
+                box.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1) translateY(0)';
+                    this.style.boxShadow = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
